@@ -13,11 +13,20 @@ class RouteTests: TestCase {
     
     func testUserAgent() throws {
         try drop
-            .testResponse(to: .get, at: "user-agent")
+            .testResponse(to: .get, at: "user-agent", headers: ["User-Agent": "test"])
             .assertStatus(is: .ok)
+            .assertJSON("user-agent", equals: "test")
     }
 
-    
+    func testIp() throws {
+        try drop
+            .testResponse(to: .get, at: "ip", headers: ["X-Forwarded-For": "5.6.7.8"])
+            .assertStatus(is: .ok)
+            .assertJSON("origin", equals: "5.6.7.8")
+
+    }
+
+
 }
 
 // MARK: Manifest
