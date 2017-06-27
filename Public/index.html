@@ -5,10 +5,10 @@
     <title>httpun: HTTP Testing Service</title>
   </head>
   <body>
-    <h1>htt(pun)</h1>
-    <p><i>/pʌn/ the clever or humorous use of a word that has more than one meaning</i></p>
+    <h1>htt(pun) HTTP Request & Response Testing Service</h1>
+    <p><i>pun obviously intended</i></p>
     <h2>Endpoints</h2>
-    <ul>
+    <ul >
       <li><a href="/ip">/ip</a>
         Returns Origin IP.
       </li>
@@ -21,6 +21,34 @@
       <li><a href="/cookies/set?k1=v1&k2=v2">/cookies/set?k1=v1&k2=v2</a>
         Set cookies.
       </li>
+    </ul>
+    <h2>Examples</h2>
+    <ul >
+      <li>
+        <strong>
+          curl http://httpun.org/ip
+        </strong>
+        <pre>{ "origin": "127.0.0.1" }</pre>
+      </li>
+      <li>
+        <strong>
+          curl http://httpun.org/user-agent
+        </strong>
+        <pre>{ "user-agent": "curl/7.51.0" }</pre>
+      </li>
+    </ul>
+    <h2>Description</h2>
+    <p>
+    This project was made for the purpose of exploring server side Swift with <a href="https://github.com/vapor/vapor" target="_blank">Vapor</a>.
+    Heavily inspired by the famous <a href="https://httpbin.org" target="_blank">httpbin</a>.
+    </p>
+    <h2>Author</h2>
+    A <a href="https://www.khoi.io" target="_blank">khoiln</a> project.
+    <h2>References</h2>
+    <ul >
+      <li><a href="https://httpbin.org" target="_blank">httpbin</a></li>
+      <li><a href="https://vapor.codes/" target="_blank">Vapor Web Framework</a></li>
+      <li><a href="https://swift.org" target="_blank">Swift Programming Language</a></li>
     </ul>
   </body>
 </html>
