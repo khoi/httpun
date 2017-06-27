@@ -2,6 +2,7 @@ import XCTest
 import Foundation
 import Testing
 import HTTP
+
 @testable import Vapor
 @testable import App
 
@@ -23,7 +24,29 @@ class RouteTests: TestCase {
             .testResponse(to: .get, at: "ip", headers: ["X-Forwarded-For": "5.6.7.8"])
             .assertStatus(is: .ok)
             .assertJSON("origin", equals: "5.6.7.8")
+    }
 
+    func testCookies() throws {
+        try drop
+            .testResponse(to: .get, at: "cookies")
+            .assertStatus(is: .ok)
+            .assertJSON("cookies", equals: [String:String]())
+
+        // Should returns an empty dict if no cookies are set
+        try drop
+            .testResponse(to: .get, at: "cookies")
+            .assertStatus(is: .ok)
+            .assertJSON("cookies", equals: [String:String]())
+
+
+        try drop
+            .testResponse(to: .get, at: "cookies", headers: ["Cookie": "test1=value1;test2=value2;test3="])
+            .assertStatus(is: .ok)
+            .assertJSON("cookies", passes: { (json) -> (Bool) in
+                json["test1"] == "value1" &&
+                json["test2"] == "value2" &&
+                json["test3"] == ""
+            })
     }
 
 
