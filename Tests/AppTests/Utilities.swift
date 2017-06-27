@@ -1,0 +1,26 @@
+import Foundation
+@testable import App
+@testable import Vapor
+import XCTest
+import Testing
+
+extension Droplet {
+    static func testable() throws -> Droplet {
+        let config = try Config(arguments: ["vapor", "--env=test"])
+        let drop = try Droplet(config)
+        try drop.setup()
+        return drop
+    }
+    func serveInBackground() throws {
+        background {
+            try! self.run()
+        }
+        console.wait(seconds: 0.5)
+    }
+}
+
+class TestCase: XCTestCase {
+    override func setUp() {
+        Testing.onFail = XCTFail
+    }
+}
