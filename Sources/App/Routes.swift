@@ -10,19 +10,19 @@ extension Droplet {
         get("/ip") { req in
             try JSON(node: [
                 "origin": req.peerHostname
-                ])
+                ]).pretifyResponse()
         }
 
         get("/user-agent") { req in
             try JSON(node: [
                 "user-agent": req.headers["User-Agent"]
-                ])
+                ]).pretifyResponse()
         }
 
         get("/cookies") { req in
             try JSON(node: [
                 "cookies": req.pun_cookies
-                ])
+                ]).pretifyResponse()
         }
 
         get("/cookies/set") { req in
