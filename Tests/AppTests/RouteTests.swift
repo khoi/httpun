@@ -53,7 +53,18 @@ class RouteTests: TestCase {
                 json["test3"] == ""
             })
     }
-    
+
+    func testSetCookies() throws{
+
+        let request = Request.makeTest(method: .get, path: "cookies/set", query: "k1=v1&k2=v2")
+
+        try drop
+            .testResponse(to: request)
+            .assertStatus(is: .seeOther)
+            .assertHeader("Set-Cookie", contains: "k1=v1")
+            .assertHeader("Set-Cookie", contains: "k2=v2")
+
+    }
 
 }
 

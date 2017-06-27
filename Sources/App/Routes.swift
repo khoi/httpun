@@ -8,28 +8,32 @@ extension Droplet {
         }
 
         get("/ip") { req in
-            var json = JSON()
-            try json.set("origin", req.peerHostname)
-            return json
+            try JSON(node: [
+                "origin": req.peerHostname
+                ])
         }
 
         get("/user-agent") { req in
-            var json = JSON()
-            try json.set("user-agent", req.headers["User-Agent"])
-            return json
+            try JSON(node: [
+                "user-agent": req.headers["User-Agent"]
+                ])
         }
 
         get("/cookies") { req in
-            var json = JSON()
+            try JSON(node: [
+                "cookies": req.pun_cookies
+                ])
+        }
 
-            let cookies = req.cookies.reduce([:]) { (acc, next) -> [String: String] in
-                var dict = acc
-                dict[next.name] = next.value
-                return dict
+        get("/cookies/set") { req in
+            let res = Response(redirect: "/cookies")
+
+            req.query?.object?.forEach{ (key, val) in
+                res.cookies[key] = val.string
             }
 
-            try json.set("cookies", cookies)
-            return json
+            return res
         }
+
     }
 }
