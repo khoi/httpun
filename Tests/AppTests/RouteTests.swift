@@ -38,7 +38,6 @@ class RouteTests: TestCase {
             .assertStatus(is: .ok)
             .assertJSON("cookies", equals: [String:String]())
 
-
         try drop
             .testResponse(to: .get, at: "cookies", headers: ["Cookie": "test1=value1;test2=value2;test3="])
             .assertStatus(is: .ok)
@@ -48,7 +47,7 @@ class RouteTests: TestCase {
                 json["test3"] == ""
             })
     }
-
+    
 
 }
 

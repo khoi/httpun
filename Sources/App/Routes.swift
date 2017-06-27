@@ -3,6 +3,10 @@ import Vapor
 extension Droplet {
     func setupRoutes() throws {
 
+        get ("/") { req in
+            try self.get("/index.html")
+        }
+
         get("/ip") { req in
             var json = JSON()
             try json.set("origin", req.peerHostname)
