@@ -11,7 +11,13 @@ import HTTP
 
 class RouteTests: TestCase {
     let drop = try! Droplet.testable()
-    
+
+    func testIndex() throws {
+        try drop
+            .testResponse(to: .get, at: "/")
+            .assertStatus(is: .ok)
+    }
+
     func testUserAgent() throws {
         try drop
             .testResponse(to: .get, at: "user-agent", headers: ["User-Agent": "test"])
