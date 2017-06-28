@@ -25,6 +25,15 @@ extension Droplet {
                 ]).pretifyResponse()
         }
 
+        get("/get") { req in
+            var json = JSON()
+            try json.set("headers", req.pun_headers)
+            try json.set("origin", req.peerHostname)
+            try json.set("args", req.pun_args)
+            return try json.pretifyResponse()
+
+        }
+
         get("/cookies") { req in
             try JSON(node: [
                 "cookies": req.pun_cookies
