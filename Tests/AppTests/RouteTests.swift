@@ -82,6 +82,12 @@ extension RouteTests {
     /// to function properly.
     /// See ./Tests/LinuxMain.swift for examples
     static let allTests = [
-        ("testHello", testUserAgent),
+        ("testIndex", testIndex),
+        ("testUserAgent", testUserAgent),
+        ("testIp", testIp),
+        ("testCookies", testCookies),
+        ("testSetCookies", testSetCookies),
+        ("testHeaders", testHeaders),
+
     ]
 }
