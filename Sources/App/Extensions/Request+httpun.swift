@@ -10,28 +10,25 @@ import Vapor
 import HTTP
 
 extension Request {
-    var pun_cookies: [String: Any] {
-        return cookies.reduce([:]) { (acc, next) -> [String: Any] in
-            var dict = acc
-            dict[next.name] = next.value
-            return dict
+    var pun_cookies: JSON {
+        var json = JSON()
+        cookies.forEach { (c) in
+            try? json.set(c.name, c.value)
         }
+        return json
     }
 
-    var pun_args: [String: Any] {
-        var dict = [String: Any]()
-        query?.object?.forEach({ (key, value) in
-            dict[key] = value
-        })
-        return dict
+    var pun_args: JSON {
+        return query?.converted(to: JSON.self) ?? JSON()
     }
 
-    var pun_headers: [String: Any] {
-        return headers.reduce([:]) { (acc, next) -> [String: String] in
-            var dict = acc
-            dict[next.key.key] = next.value
-            return dict
+    var pun_headers: JSON {
+        var json = JSON()
+        headers.forEach { (headerKey, value) in
+            try? json.set(headerKey.key, value)
         }
+        return json
+       
     }
 }
 
