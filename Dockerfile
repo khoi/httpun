@@ -7,7 +7,9 @@ ADD . $httpun
 
 WORKDIR $httpun
 
+RUN swift build -c debug -C $httpun
 RUN swift build -c release -C $httpun
+RUN swift test -C $httpun
 
 EXPOSE 8080
 
