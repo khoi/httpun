@@ -13,6 +13,12 @@ extension Droplet {
                 ]).pretifyResponse()
         }
 
+        get("/headers") { req in
+            try JSON(node: [
+                "headers": req.pun_headers
+                ]).pretifyResponse()
+        }
+
         get("/user-agent") { req in
             try JSON(node: [
                 "user-agent": req.headers["User-Agent"]

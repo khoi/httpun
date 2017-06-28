@@ -63,7 +63,15 @@ class RouteTests: TestCase {
             .assertStatus(is: .seeOther)
             .assertHeader("Set-Cookie", contains: "k1=v1")
             .assertHeader("Set-Cookie", contains: "k2=v2")
+    }
 
+    func testHeaders() throws {
+        try drop
+            .testResponse(to: .get, at: "headers", headers: ["k1": "v1", "k2": "v2"])
+            .assertStatus(is: .ok)
+            .assertJSON("headers", passes: { (json) -> (Bool) in
+                json["k1"] == "v1" && json["k2"] == "v2"
+            })
     }
 
 }
