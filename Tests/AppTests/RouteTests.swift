@@ -6,9 +6,6 @@ import HTTP
 @testable import Vapor
 @testable import App
 
-/// This file shows an example of testing 
-/// routes through the Droplet.
-
 class RouteTests: TestCase {
     let drop = try! Droplet.testable()
 
@@ -74,6 +71,14 @@ class RouteTests: TestCase {
             })
     }
 
+    func testGet() throws {
+        let request = Request.makeTest(method: .get, headers: ["User-Agent": "httpun"], path: "get", query: "k1=v1&k2=v2")
+        try drop.testResponse(to: request)
+                .assertStatus(is: .ok)
+                .assertJSON("headers", equals: ["User-Agent": "httpun"])
+                .assertJSON("queries", equals: ["k1": "v1", "k2": "v2"])
+
+    }
 }
 
 // MARK: Manifest
@@ -88,6 +93,6 @@ extension RouteTests {
         ("testCookies", testCookies),
         ("testSetCookies", testSetCookies),
         ("testHeaders", testHeaders),
-
+        ("testGet", testGet),
     ]
 }

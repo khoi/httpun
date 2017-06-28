@@ -29,9 +29,8 @@ extension Droplet {
             var json = JSON()
             try json.set("headers", req.pun_headers)
             try json.set("origin", req.peerHostname)
-            try json.set("args", req.pun_args)
+            try json.set("queries", req.pun_queries)
             return try json.pretifyResponse()
-
         }
 
         get("/cookies") { req in
@@ -42,11 +41,9 @@ extension Droplet {
 
         get("/cookies/set") { req in
             let res = Response(redirect: "/cookies")
-
             req.query?.object?.forEach{ (key, val) in
                 res.cookies[key] = val.string
             }
-
             return res
         }
 
