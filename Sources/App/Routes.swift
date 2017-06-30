@@ -1,5 +1,6 @@
 import Vapor
 import Cookies
+import HTTP
 
 extension Droplet {
     func setupRoutes() throws {
@@ -10,27 +11,28 @@ extension Droplet {
 
         get("/ip") { req in
             try JSON(node: [
-                "origin": req.peerHostname
+                ResponseKeys.origin.rawValue: req.peerHostname
                 ]).pretifyResponse()
         }
 
         get("/headers") { req in
+
             try JSON(node: [
-                "headers": req.pun_headers
+                ResponseKeys.headers.rawValue: req.pun_headers
                 ]).pretifyResponse()
         }
 
         get("/user-agent") { req in
             try JSON(node: [
-                "user-agent": req.headers["User-Agent"]
+                ResponseKeys.useragent.rawValue: req.headers[HeaderKey.userAgent]
                 ]).pretifyResponse()
         }
 
         get("/get") { req in
             var json = JSON()
-            try json.set("headers", req.pun_headers)
-            try json.set("origin", req.peerHostname)
-            try json.set("queries", req.pun_queries)
+            try json.set(ResponseKeys.headers.rawValue, req.pun_headers)
+            try json.set(ResponseKeys.origin.rawValue, req.peerHostname)
+            try json.set(ResponseKeys.args.rawValue, req.pun_args)
             return try json.pretifyResponse()
         }
 

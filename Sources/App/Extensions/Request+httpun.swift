@@ -18,7 +18,7 @@ extension Request {
         return json
     }
 
-    var pun_queries: JSON {
+    var pun_args: JSON {
         return query?.converted(to: JSON.self) ?? JSON()
     }
 

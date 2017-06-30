@@ -87,7 +87,7 @@ class RouteTests: TestCase {
         try drop.testResponse(to: request)
                 .assertStatus(is: .ok)
                 .assertJSON("headers", equals: ["User-Agent": "httpun"])
-                .assertJSON("queries", equals: ["k1": "v1", "k2": "v2"])
+                .assertJSON("args", equals: ["k1": "v1", "k2": "v2"])
     }
 }
 
