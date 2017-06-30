@@ -1,4 +1,5 @@
 import Vapor
+import Cookies
 
 extension Droplet {
     func setupRoutes() throws {
@@ -44,6 +45,21 @@ extension Droplet {
             req.query?.object?.forEach{ (key, val) in
                 res.cookies[key] = val.string
             }
+            return res
+        }
+
+        get("/cookies/delete") { req in
+            let res = Response(redirect: "/cookies")
+            
+            req.query?.object?.forEach { (key, val) in
+                res.cookies.insert(
+                    Cookie(name: key,
+                           value: "",
+                           expires: Date(timeIntervalSince1970: 0),
+                           maxAge: 0)
+                )
+            }
+
             return res
         }
 

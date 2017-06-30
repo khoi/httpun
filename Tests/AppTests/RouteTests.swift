@@ -62,6 +62,17 @@ class RouteTests: TestCase {
             .assertHeader("Set-Cookie", contains: "k2=v2")
     }
 
+    func testDeleteCookies() throws{
+
+        let request = Request.makeTest(method: .get, path: "cookies/delete", query: "k1=&k2=")
+
+        try drop
+            .testResponse(to: request)
+            .assertStatus(is: .seeOther)
+            .assertHeader("Set-Cookie", contains: "k2=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Max-Age=0; Path=/")
+            .assertHeader("Set-Cookie", contains: "k1=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Max-Age=0; Path=/")
+    }
+
     func testHeaders() throws {
         try drop
             .testResponse(to: .get, at: "headers", headers: ["k1": "v1", "k2": "v2"])
@@ -77,7 +88,6 @@ class RouteTests: TestCase {
                 .assertStatus(is: .ok)
                 .assertJSON("headers", equals: ["User-Agent": "httpun"])
                 .assertJSON("queries", equals: ["k1": "v1", "k2": "v2"])
-
     }
 }
 
