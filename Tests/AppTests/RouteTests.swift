@@ -104,5 +104,6 @@ extension RouteTests {
         ("testSetCookies", testSetCookies),
         ("testHeaders", testHeaders),
         ("testGet", testGet),
+        ("testDeleteCookies", testDeleteCookies),
     ]
 }
