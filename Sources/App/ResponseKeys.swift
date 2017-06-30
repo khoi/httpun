@@ -13,4 +13,8 @@ enum ResponseKeys: String {
     case origin
     case useragent = "user-agent"
     case args
+    case form
+    case files
+    case json
+    case data
 }

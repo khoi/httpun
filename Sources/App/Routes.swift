@@ -1,6 +1,7 @@
 import Vapor
 import Cookies
 import HTTP
+import Multipart
 
 extension Droplet {
     func setupRoutes() throws {
@@ -16,7 +17,6 @@ extension Droplet {
         }
 
         get("/headers") { req in
-
             try JSON(node: [
                 ResponseKeys.headers.rawValue: req.pun_headers
                 ]).pretifyResponse()
@@ -33,6 +33,18 @@ extension Droplet {
             try json.set(ResponseKeys.headers.rawValue, req.pun_headers)
             try json.set(ResponseKeys.origin.rawValue, req.peerHostname)
             try json.set(ResponseKeys.args.rawValue, req.pun_args)
+            return try json.pretifyResponse()
+        }
+
+        post("/post") { req in
+            var json = JSON()
+            try json.set(ResponseKeys.headers.rawValue, req.pun_headers)
+            try json.set(ResponseKeys.origin.rawValue, req.peerHostname)
+            try json.set(ResponseKeys.args.rawValue, req.pun_args)
+            try json.set(ResponseKeys.form.rawValue, req.pun_postForms)
+            try json.set(ResponseKeys.files.rawValue, req.pun_postFiles)
+            try json.set(ResponseKeys.json.rawValue, req.json)
+            try json.set(ResponseKeys.data.rawValue, req.body.bytes?.makeString())
             return try json.pretifyResponse()
         }
 

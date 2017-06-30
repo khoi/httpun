@@ -28,7 +28,25 @@ extension Request {
             try? json.set(headerKey.key, value)
         }
         return json
-       
+    }
+
+    var pun_postFiles: JSON {
+        var json = JSON()
+        formData?.filter { $1.filename != nil }.forEach { key, value in
+            try? json.set(key, value.filename)
+        }
+        return json
+    }
+
+    var pun_postForms: JSON {
+        var json = JSON()
+        formData?.filter{ $1.filename == nil }.forEach { key, value in
+            try? json.set(key, value.part.body.makeString())
+        }
+        formURLEncoded?.object?.forEach { (key, value) in
+            try? json.set(key, value)
+        }
+        return json
     }
 }
 
