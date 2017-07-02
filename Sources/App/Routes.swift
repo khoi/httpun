@@ -6,52 +6,38 @@ import Multipart
 extension Droplet {
     func setupRoutes() throws {
 
+        let helper = PunHelper()
+
         get ("/") { req in
             try self.get("/index.html")
         }
 
         get("/ip") { req in
-            try JSON(node: [
-                ResponseKeys.origin.rawValue: req.peerHostname
-                ]).pretifyResponse()
+            try helper.getResponseDict(of: req, for: [.origin])
         }
 
         get("/headers") { req in
-            try JSON(node: [
-                ResponseKeys.headers.rawValue: req.pun_headers
-                ]).pretifyResponse()
+            try helper.getResponseDict(of: req, for: [.headers])
         }
 
         get("/user-agent") { req in
-            try JSON(node: [
-                ResponseKeys.useragent.rawValue: req.headers[HeaderKey.userAgent]
-                ]).pretifyResponse()
+            try helper.getResponseDict(of: req, for: [.useragent])
         }
 
         get("/get") { req in
-            var json = JSON()
-            try json.set(ResponseKeys.headers.rawValue, req.pun_headers)
-            try json.set(ResponseKeys.origin.rawValue, req.peerHostname)
-            try json.set(ResponseKeys.args.rawValue, req.pun_args)
-            return try json.pretifyResponse()
+            try helper.getResponseDict(of: req, for: [.headers, .origin, .args])
         }
 
         post("/post") { req in
-            var json = JSON()
-            try json.set(ResponseKeys.headers.rawValue, req.pun_headers)
-            try json.set(ResponseKeys.origin.rawValue, req.peerHostname)
-            try json.set(ResponseKeys.args.rawValue, req.pun_args)
-            try json.set(ResponseKeys.form.rawValue, req.pun_postForms)
-            try json.set(ResponseKeys.files.rawValue, req.pun_postFiles)
-            try json.set(ResponseKeys.json.rawValue, req.json)
-            try json.set(ResponseKeys.data.rawValue, req.body.bytes?.makeString())
-            return try json.pretifyResponse()
+            try helper.getResponseDict(of: req, for: [.headers, .origin, .args, .form, .files, .json, .data])
+        }
+
+        patch("patch") { req in
+            try helper.getResponseDict(of: req, for: [.headers, .origin, .args, .form, .files, .json, .data])
         }
 
         get("/cookies") { req in
-            try JSON(node: [
-                "cookies": req.pun_cookies
-                ]).pretifyResponse()
+            try helper.getResponseDict(of: req, for: [.cookies])
         }
 
         get("/cookies/set") { req in

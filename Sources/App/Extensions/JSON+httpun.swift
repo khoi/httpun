@@ -10,9 +10,9 @@ import JSON
 import HTTP
 
 extension JSON {
-    public func pretifyResponse() throws -> Response {
+    public func toResponse(prettify: Bool) throws -> Response {
         return Response(status: .ok,
                         headers: ["Content-Type": "application/json; charset=utf-8"],
-                        body: Body(try serialize(prettyPrint: true)))
+                        body: Body(try serialize(prettyPrint: prettify)))
     }
 }

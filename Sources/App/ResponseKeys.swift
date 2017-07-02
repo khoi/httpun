@@ -17,4 +17,5 @@ enum ResponseKeys: String {
     case files
     case json
     case data
+    case cookies
 }
