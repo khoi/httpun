@@ -179,6 +179,96 @@ class RouteTests: TestCase {
                 json.string == "Raw Body String"
             })
     }
+
+    func testPutJSON() throws {
+        let json = try JSON(node: [
+            "string": "stringValue",
+            "integer": 123,
+            "double": 123.456,
+            ])
+
+
+        let request = Request.makeTest(method: .put,
+                                       headers: ["Content-Type": "application/json"],
+                                       body: try Body(json),
+                                       path: "put",
+                                       query: "k1=v1&k2=v2"
+        )
+
+
+
+        try drop.testResponse(to: request)
+            .assertStatus(is: .ok)
+            .assertJSON("headers", equals: ["Content-Type": "application/json"])
+            .assertJSON("args", equals: ["k1": "v1", "k2": "v2"])
+            .assertJSON("json") { (json) -> (Bool) in
+                json["string"]?.string == "stringValue" &&
+                    json["integer"]?.int == 123 &&
+                    json["double"]?.double == 123.456
+        }
+
+    }
+
+    func testPutRaw() throws{
+        let request = Request.makeTest(method: .put,
+                                       headers: ["User-Agent": "httpun"],
+                                       body: Body("Raw Body String"),
+                                       path: "put",
+                                       query: "k1=v1&k2=v2")
+
+        try drop.testResponse(to: request)
+            .assertStatus(is: .ok)
+            .assertJSON("headers", equals: ["User-Agent": "httpun"])
+            .assertJSON("args", equals: ["k1": "v1", "k2": "v2"])
+            .assertJSON("data", passes: { (json) -> (Bool) in
+                json.string == "Raw Body String"
+            })
+    }
+
+    func testDeleteJSON() throws {
+        let json = try JSON(node: [
+            "string": "stringValue",
+            "integer": 123,
+            "double": 123.456,
+            ])
+
+
+        let request = Request.makeTest(method: .delete,
+                                       headers: ["Content-Type": "application/json"],
+                                       body: try Body(json),
+                                       path: "delete",
+                                       query: "k1=v1&k2=v2"
+        )
+
+
+
+        try drop.testResponse(to: request)
+            .assertStatus(is: .ok)
+            .assertJSON("headers", equals: ["Content-Type": "application/json"])
+            .assertJSON("args", equals: ["k1": "v1", "k2": "v2"])
+            .assertJSON("json") { (json) -> (Bool) in
+                json["string"]?.string == "stringValue" &&
+                    json["integer"]?.int == 123 &&
+                    json["double"]?.double == 123.456
+        }
+
+    }
+
+    func testDeleteRaw() throws{
+        let request = Request.makeTest(method: .delete,
+                                       headers: ["User-Agent": "httpun"],
+                                       body: Body("Raw Body String"),
+                                       path: "delete",
+                                       query: "k1=v1&k2=v2")
+
+        try drop.testResponse(to: request)
+            .assertStatus(is: .ok)
+            .assertJSON("headers", equals: ["User-Agent": "httpun"])
+            .assertJSON("args", equals: ["k1": "v1", "k2": "v2"])
+            .assertJSON("data", passes: { (json) -> (Bool) in
+                json.string == "Raw Body String"
+            })
+    }
 }
 
 // MARK: Manifest
@@ -199,5 +289,9 @@ extension RouteTests {
         ("testPostRaw", testPostRaw),
         ("testPatchJSON", testPatchJSON),
         ("testPatchRaw", testPatchRaw),
+        ("testPutJSON", testPutJSON),
+        ("testPutRaw", testPutRaw),
+        ("testDeleteJSON", testDeleteJSON),
+        ("testDeleteRaw", testDeleteRaw),
     ]
 }

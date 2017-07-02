@@ -32,7 +32,15 @@ extension Droplet {
             try helper.getResponseDict(of: req, for: [.headers, .origin, .args, .form, .files, .json, .data])
         }
 
-        patch("patch") { req in
+        patch("/patch") { req in
+            try helper.getResponseDict(of: req, for: [.headers, .origin, .args, .form, .files, .json, .data])
+        }
+
+        put("/put") { req in
+            try helper.getResponseDict(of: req, for: [.headers, .origin, .args, .form, .files, .json, .data])
+        }
+
+        delete("/delete") { req in
             try helper.getResponseDict(of: req, for: [.headers, .origin, .args, .form, .files, .json, .data])
         }
 
