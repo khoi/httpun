@@ -134,6 +134,51 @@ class RouteTests: TestCase {
                     json.string == "Raw Body String"
                 })
     }
+
+    func testPatchJSON() throws {
+        let json = try JSON(node: [
+            "string": "stringValue",
+            "integer": 123,
+            "double": 123.456,
+            ])
+
+
+        let request = Request.makeTest(method: .patch,
+                                       headers: ["Content-Type": "application/json"],
+                                       body: try Body(json),
+                                       path: "patch",
+                                       query: "k1=v1&k2=v2"
+        )
+
+
+
+        try drop.testResponse(to: request)
+            .assertStatus(is: .ok)
+            .assertJSON("headers", equals: ["Content-Type": "application/json"])
+            .assertJSON("args", equals: ["k1": "v1", "k2": "v2"])
+            .assertJSON("json") { (json) -> (Bool) in
+                json["string"]?.string == "stringValue" &&
+                    json["integer"]?.int == 123 &&
+                    json["double"]?.double == 123.456
+        }
+
+    }
+
+    func testPatchRaw() throws{
+        let request = Request.makeTest(method: .patch,
+                                       headers: ["User-Agent": "httpun"],
+                                       body: Body("Raw Body String"),
+                                       path: "patch",
+                                       query: "k1=v1&k2=v2")
+
+        try drop.testResponse(to: request)
+            .assertStatus(is: .ok)
+            .assertJSON("headers", equals: ["User-Agent": "httpun"])
+            .assertJSON("args", equals: ["k1": "v1", "k2": "v2"])
+            .assertJSON("data", passes: { (json) -> (Bool) in
+                json.string == "Raw Body String"
+            })
+    }
 }
 
 // MARK: Manifest
@@ -152,5 +197,7 @@ extension RouteTests {
         ("testDeleteCookies", testDeleteCookies),
         ("testPostJSON", testPostJSON),
         ("testPostRaw", testPostRaw),
+        ("testPatchJSON", testPatchJSON),
+        ("testPatchRaw", testPatchRaw),
     ]
 }
