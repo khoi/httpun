@@ -18,4 +18,5 @@ enum ResponseKeys: String {
     case json
     case data
     case cookies
+    case url
 }

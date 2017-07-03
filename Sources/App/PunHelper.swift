@@ -11,7 +11,7 @@ import HTTP
 
 class PunHelper {
 
-    func getResponseDict(of req: Request,for keys: [ResponseKeys], prettify: Bool = true) throws -> Response {
+    func getResponseJSON(of req: Request,for keys: [ResponseKeys], prettify: Bool = true) throws -> JSON {
         var json = JSON()
 
         try keys.forEach { (key) in
@@ -34,10 +34,12 @@ class PunHelper {
                 try json.set(key.rawValue, req.headers[HeaderKey.userAgent])
             case .cookies:
                 try json.set(key.rawValue, req.pun_cookies)
+            case .url:
+                try json.set(key.rawValue, req.uri.makeFoundationURL().absoluteString)
             }
         }
 
-        return try json.toResponse(prettify: prettify)
+        return json
     }
 
     //TODO: Construct the appropriate response based on the status code

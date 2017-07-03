@@ -14,39 +14,57 @@ extension Droplet {
         }
 
         get("/ip") { req in
-            try helper.getResponseDict(of: req, for: [.origin])
+            try helper
+                .getResponseJSON(of: req, for: [.origin])
+                .toResponse(prettify: true)
         }
 
         get("/headers") { req in
-            try helper.getResponseDict(of: req, for: [.headers])
+            try helper
+                .getResponseJSON(of: req, for: [.headers])
+                .toResponse(prettify: true)
         }
 
         get("/user-agent") { req in
-            try helper.getResponseDict(of: req, for: [.useragent])
+            try helper
+                .getResponseJSON(of: req, for: [.useragent])
+                .toResponse(prettify: true)
         }
 
         get("/get") { req in
-            try helper.getResponseDict(of: req, for: [.headers, .origin, .args])
+            try helper
+                .getResponseJSON(of: req, for: [.headers, .origin, .args, .url])
+                .toResponse(prettify: true)
         }
 
         post("/post") { req in
-            try helper.getResponseDict(of: req, for: [.headers, .origin, .args, .form, .files, .json, .data])
+            try helper
+                .getResponseJSON(of: req, for: [.headers, .origin, .args, .form, .files, .json, .data, .url])
+                .toResponse(prettify: true)
         }
 
         patch("/patch") { req in
-            try helper.getResponseDict(of: req, for: [.headers, .origin, .args, .form, .files, .json, .data])
+            try helper
+                .getResponseJSON(of: req, for: [.headers, .origin, .args, .form, .files, .json, .data, .url])
+                .toResponse(prettify: true)
         }
 
         put("/put") { req in
-            try helper.getResponseDict(of: req, for: [.headers, .origin, .args, .form, .files, .json, .data])
+            try helper
+                .getResponseJSON(of: req, for: [.headers, .origin, .args, .form, .files, .json, .data, .url])
+                .toResponse(prettify: true)
         }
 
         delete("/delete") { req in
-            try helper.getResponseDict(of: req, for: [.headers, .origin, .args, .form, .files, .json, .data])
+            try helper
+                .getResponseJSON(of: req, for: [.headers, .origin, .args, .form, .files, .json, .data, .url])
+                .toResponse(prettify: true)
         }
 
         get("/cookies") { req in
-            try helper.getResponseDict(of: req, for: [.cookies])
+            try helper
+                .getResponseJSON(of: req, for: [.cookies])
+                .toResponse(prettify: true)
         }
 
         get("/cookies/set") { req in
@@ -59,7 +77,6 @@ extension Droplet {
 
         get("/cookies/delete") { req in
             let res = Response(redirect: "/cookies")
-            
             req.query?.object?.forEach { (key, val) in
                 res.cookies.insert(
                     Cookie(name: key,
@@ -79,6 +96,13 @@ extension Droplet {
                 return try helper.getResponse(statusCode: 400)
             }
             return try helper.getResponse(statusCode: code)
+        }
+
+        all("/anything", "*") { req in
+            var json = try helper
+                .getResponseJSON(of: req, for: [.headers, .origin, .args, .form, .files, .json, .data, .url])
+            try json.set("method", req.method.description)
+            return try json.toResponse(prettify: true)
         }
 
         get("/deny") { req in

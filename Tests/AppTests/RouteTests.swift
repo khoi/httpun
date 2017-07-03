@@ -280,6 +280,39 @@ class RouteTests: TestCase {
         try drop.testResponse(to: .get, at: "robots.txt")
             .assertStatus(is: .ok)
     }
+
+    func testAnything() throws {
+        let methods: [HTTP.Method] = [.post, .put, .patch]
+
+        methods.forEach { (m) in
+            let request = Request.makeTest(method: m,
+                                           headers: ["User-Agent": "httpun"],
+                                           body: Body("Raw Body String"),
+                                           path: "anything",
+                                           query: "k1=v1&k2=v2")
+
+            try! drop.testResponse(to: request)
+                .assertStatus(is: .ok)
+                .assertJSON("headers", equals: ["User-Agent": "httpun"])
+                .assertJSON("args", equals: ["k1": "v1", "k2": "v2"])
+                .assertJSON("data", passes: { (json) -> (Bool) in
+                    json.string == "Raw Body String"
+                })
+                .assertJSON("method", equals: m.description)
+        }
+
+        let getRequest = Request.makeTest(method: .get,
+                                       headers: ["User-Agent": "httpun"],
+                                       body: Body("Raw Body String"),
+                                       path: "anything",
+                                       query: "k1=v1&k2=v2")
+
+        try drop.testResponse(to: getRequest)
+            .assertStatus(is: .ok)
+            .assertJSON("headers", equals: ["User-Agent": "httpun"])
+            .assertJSON("args", equals: ["k1": "v1", "k2": "v2"])
+            .assertJSON("method", equals: "GET")
+    }
 }
 
 // MARK: Manifest
