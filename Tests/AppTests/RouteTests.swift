@@ -269,6 +269,17 @@ class RouteTests: TestCase {
                 json.string == "Raw Body String"
             })
     }
+
+    func testDeny() throws {
+        try drop.testResponse(to: .get, at: "deny")
+            .assertStatus(is: .ok)
+            .assertHeader(.contentType, contains: "text/plain; charset=utf-8")
+    }
+
+    func testRobotsTxt() throws {
+        try drop.testResponse(to: .get, at: "robots.txt")
+            .assertStatus(is: .ok)
+    }
 }
 
 // MARK: Manifest
@@ -293,5 +304,7 @@ extension RouteTests {
         ("testPutRaw", testPutRaw),
         ("testDeleteJSON", testDeleteJSON),
         ("testDeleteRaw", testDeleteRaw),
+        ("testDeny", testDeny),
+        ("testRobotsTxt", testRobotsTxt),
     ]
 }

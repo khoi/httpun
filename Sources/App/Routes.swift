@@ -8,6 +8,7 @@ extension Droplet {
 
         let helper = PunHelper()
 
+
         get ("/") { req in
             try self.get("/index.html")
         }
@@ -70,6 +71,20 @@ extension Droplet {
 
             return res
         }
+
+        //TODO: Add tests
+        all("/status", String.parameter) { req in
+            guard let codeString = try? req.parameters.next(String.self),
+                    let code = Int(codeString) else {
+                return try helper.getResponse(statusCode: 400)
+            }
+            return try helper.getResponse(statusCode: code)
+        }
+
+        get("/deny") { req in
+            ASCIIArt.flippingTheTable.rawValue.makeResponse()
+        }
+
 
     }
 }

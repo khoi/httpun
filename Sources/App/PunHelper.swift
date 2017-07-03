@@ -10,6 +10,7 @@ import Vapor
 import HTTP
 
 class PunHelper {
+
     func getResponseDict(of req: Request,for keys: [ResponseKeys], prettify: Bool = true) throws -> Response {
         var json = JSON()
 
@@ -37,5 +38,12 @@ class PunHelper {
         }
 
         return try json.toResponse(prettify: prettify)
+    }
+
+    //TODO: Construct the appropriate response based on the status code
+    func getResponse(statusCode: Int) throws -> Response {
+        var json = JSON()
+        try json.set("status", statusCode)
+        return try Response(status: Status(statusCode: statusCode), json: json)
     }
 }
