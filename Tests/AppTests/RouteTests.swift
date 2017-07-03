@@ -281,7 +281,7 @@ class RouteTests: TestCase {
             .assertStatus(is: .ok)
     }
 
-    func testAnything() throws {
+    func testAnythingWithBody() throws {
         let methods: [HTTP.Method] = [.post, .put, .patch]
 
         methods.forEach { (m) in
@@ -300,18 +300,26 @@ class RouteTests: TestCase {
                 })
                 .assertJSON("method", equals: m.description)
         }
+    }
 
-        let getRequest = Request.makeTest(method: .get,
-                                       headers: ["User-Agent": "httpun"],
-                                       body: Body("Raw Body String"),
-                                       path: "anything",
-                                       query: "k1=v1&k2=v2")
+    func testAnythingNoBody() throws {
+        let methods: [HTTP.Method] = [.get, .options, .trace]
 
-        try drop.testResponse(to: getRequest)
-            .assertStatus(is: .ok)
-            .assertJSON("headers", equals: ["User-Agent": "httpun"])
-            .assertJSON("args", equals: ["k1": "v1", "k2": "v2"])
-            .assertJSON("method", equals: "GET")
+        methods.forEach { (m) in
+            let getRequest = Request.makeTest(method: m,
+                                              headers: ["User-Agent": "httpun"],
+                                              path: "anything",
+                                              query: "k1=v1&k2=v2")
+
+            try! drop.testResponse(to: getRequest)
+                .assertStatus(is: .ok)
+                .assertJSON("headers", equals: ["User-Agent": "httpun"])
+                .assertJSON("args", equals: ["k1": "v1", "k2": "v2"])
+                .assertJSON("method", equals: m.description)
+        }
+
+
+
     }
 }
 
