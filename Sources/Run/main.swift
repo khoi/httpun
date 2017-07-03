@@ -2,7 +2,7 @@ import App
 import LeafProvider
 
 let config = try Config()
-try config.addProvider(LeafProvider.Provider.self)
+try config.setup()
 
 let drop = try Droplet(config)
 try drop.setup()
