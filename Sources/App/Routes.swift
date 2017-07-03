@@ -3,14 +3,14 @@ import Cookies
 import HTTP
 import Multipart
 
+
 extension Droplet {
     func setupRoutes() throws {
 
         let helper = PunHelper()
 
-
         get ("/") { req in
-            try self.get("/index.html")
+            try self.view.make("index")
         }
 
         get("/ip") { req in
