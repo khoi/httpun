@@ -37,6 +37,8 @@
 		</li>
         <li><a href="/cookies/delete?k1&k2">/cookies/delete?k1=&k2=</a> Delete cookies.
         </li>
+        <li><a href="/redirect/5">/redirect/:n</a> 302 redirect n times.
+        </li>
         <li><a href="/robots.txt">/robots.txt</a> robots.txt rule.
         </li>
         <li><a href="/deny">/deny</a> Robots prohibited.

@@ -318,7 +318,20 @@ class RouteTests: TestCase {
                 .assertJSON("method", equals: m.description)
         }
 
+    }
 
+    func testRedirect() throws {
+        let request = Request.makeTest(method: .get, path: "redirect/5")
+
+        try drop.testResponse(to: request)
+                .assertStatus(is: Status(statusCode: 302))
+                .assertHeader("Location", contains: "/redirect/4")
+
+        let redirectMeReq = Request.makeTest(method: .get, path: "redirect/1")
+
+        try drop.testResponse(to: redirectMeReq)
+            .assertStatus(is: Status(statusCode: 302))
+            .assertHeader("Location", contains: "/get")
 
     }
 }
@@ -347,5 +360,8 @@ extension RouteTests {
         ("testDeleteRaw", testDeleteRaw),
         ("testDeny", testDeny),
         ("testRobotsTxt", testRobotsTxt),
+        ("testAnythingWithBody", testAnythingWithBody),
+        ("testAnythingNoBody", testAnythingNoBody),
+        ("testRedirect", testRedirect),
     ]
 }

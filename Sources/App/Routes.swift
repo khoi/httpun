@@ -110,5 +110,11 @@ extension Droplet {
         }
 
 
+        get("/redirect", Int.parameter) { req in
+            guard let times = try? req.parameters.next(Int.self), times > 1 else {
+                return helper.getRedirectResponse(path: "/get", status: .found)
+            }
+            return helper.getRedirectResponse(path: "/redirect/\(times - 1)", status: .found)
+        }
     }
 }

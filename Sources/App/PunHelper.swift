@@ -10,6 +10,10 @@ import Vapor
 import HTTP
 
 class PunHelper {
+    func getRedirectResponse(path: String, status: Status) -> Response {
+        let res = Response(status: status, headers: ["Location": path])
+        return res
+    }
 
     func getResponseJSON(of req: Request,for keys: [ResponseKeys], prettify: Bool = true) throws -> JSON {
         var json = JSON()
