@@ -39,6 +39,10 @@
         </li>
         <li><a href="/redirect/5">/redirect/:n</a> 302 redirect n times.
         </li>
+        <li><a href="/redirect-to?url=http%3A%2F%2Fhttpun.org%2Fget%3Fk1%3Dv1%26k2%3Dv2">/redirect-to?url=foo</a> 302 Redirects to an URL.
+        </li>
+        <li><a href="/redirect-to?url=http%3A%2F%2Fhttpun.org%2Fget%3Fk1%3Dv1%26k2%3Dv2&status_code=307">/redirect-to?url=foo&status_code=307</a> 307 Redirects to an URL.
+        </li>
         <li><a href="/robots.txt">/robots.txt</a> robots.txt rule.
         </li>
         <li><a href="/deny">/deny</a> Robots prohibited.

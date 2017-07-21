@@ -334,6 +334,23 @@ class RouteTests: TestCase {
             .assertHeader("Location", contains: "/get")
 
     }
+
+    func testRedirectTo() throws {
+        let request = Request.makeTest(method: .get, path: "redirect-to", query: nil)
+
+        try drop.testResponse(to: request)
+            .assertStatus(is: Status(statusCode: 302))
+            .assertHeader("Location", contains: "get", "Redirect to get if no url param defined")
+
+        let req2 = Request.makeTest(method: .get,
+                                                 path: "redirect-to",
+                                                 query: "url=http%3A%2F%2Fhttpun.org%2Fget%3Fk1%3Dv1%26k2%3Dv2&status_code=307")
+
+        try drop.testResponse(to: req2)
+            .assertStatus(is: Status(statusCode: 307))
+            .assertHeader("Location", contains: "http://httpun.org/get?k1=v1&k2=v2")
+
+    }
 }
 
 // MARK: Manifest
@@ -363,5 +380,6 @@ extension RouteTests {
         ("testAnythingWithBody", testAnythingWithBody),
         ("testAnythingNoBody", testAnythingNoBody),
         ("testRedirect", testRedirect),
+        ("testRedirectTo", testRedirectTo),
     ]
 }

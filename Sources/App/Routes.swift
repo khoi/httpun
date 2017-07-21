@@ -116,5 +116,11 @@ extension Droplet {
             }
             return helper.getRedirectResponse(path: "/redirect/\(times - 1)", status: .found)
         }
+
+        get("/redirect-to") { req in
+            let url = req.query?["url"]?.string ?? "/get"
+            let statusCode = req.query?["status_code"]?.int ?? Status.found.statusCode
+            return helper.getRedirectResponse(path: url, status: Status(statusCode: statusCode))
+        }
     }
 }
