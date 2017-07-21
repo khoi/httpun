@@ -1,0 +1,11 @@
+{
+  "name": "httpun",
+  "description": "HTTP Request & Response Testing Service",
+  "repository": "https://github.com/khoiln/httpun/",
+  "website": "https://httpun.org",
+  "buildpacks": [
+    {
+      "url": "https://github.com/vapor/heroku-buildpack"
+    }
+  ]
+}
