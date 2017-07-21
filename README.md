@@ -4,12 +4,6 @@ Yet another HTTP Request & Response Testing Service. Purely written in Swift usi
 
 Checkout [https://httpun.org](https://httpun.org) for more information.
 
-# Deploying on Heroku
-
-To deploy your own instance of httpun on Heroku. Use the button below
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
 # Running httpun locally
 
 Require Swift 3.1 onwards.
@@ -19,6 +13,19 @@ git clone https://github.com/khoiln/httpun.git && cd httpun/
 swift build
 .build/debug/Run
 ```
+
+# Deploying on Heroku
+
+```bash
+heroku create
+git push heroku master
+heroku open
+```
+
+Alternatively, you can deploy your own copy of the httpun using this button:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 
 # References
 
