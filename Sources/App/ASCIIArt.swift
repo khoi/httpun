@@ -8,6 +8,6 @@
 
 import Foundation
 
-enum ASCIIArt: String {
-    case flippingTheTable = "(╯°□°）╯︵ ┻━┻ \nWhy are you here?"
+enum ASCIIArt {
+    static let flippingTheTable = "(╯°□°）╯︵ ┻━┻ \nWhy are you here?"
 }

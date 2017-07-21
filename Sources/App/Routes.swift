@@ -106,7 +106,7 @@ extension Droplet {
         }
 
         get("/deny") { req in
-            ASCIIArt.flippingTheTable.rawValue.makeResponse()
+            ASCIIArt.flippingTheTable.makeResponse()
         }
 
 
