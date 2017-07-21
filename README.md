@@ -1,8 +1,11 @@
+
 # httpun [![Build Status](https://travis-ci.org/khoiln/httpun.svg?branch=master)](https://travis-ci.org/khoiln/httpun) [![Swift 3.1](http://img.shields.io/badge/swift-3.1-brightgreen.svg)]()
 
 Yet another HTTP Request & Response Testing Service. Purely written in Swift using [Vapor](https://vapor.codes) framework.
 
 Checkout [https://httpun.org](https://httpun.org) for more information.
+
+![](http://i.imgur.com/CjhoSSD.gif)
 
 # Running httpun locally
 
