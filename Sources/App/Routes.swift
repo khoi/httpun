@@ -7,10 +7,10 @@ import Multipart
 extension Droplet {
     func setupRoutes() throws {
 
-        let helper = PunHelper()
+        let helper = Helper()
 
         get ("/") { req in
-            try self.view.make("index")
+            try view.make("index")
         }
 
         get("/ip") { req in
@@ -89,10 +89,9 @@ extension Droplet {
             return res
         }
 
-        //TODO: Add tests
         all("/status", String.parameter) { req in
             guard let codeString = try? req.parameters.next(String.self),
-                    let code = Int(codeString) else {
+                    let code = Int(codeString), code > 100 else {
                 return try helper.getResponse(statusCode: 400)
             }
             return try helper.getResponse(statusCode: code)
@@ -108,7 +107,6 @@ extension Droplet {
         get("/deny") { req in
             ASCIIArt.flippingTheTable.makeResponse()
         }
-
 
         get("/redirect", Int.parameter) { req in
             guard let times = try? req.parameters.next(Int.self), times > 1 else {

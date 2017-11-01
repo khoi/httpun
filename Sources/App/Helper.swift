@@ -9,7 +9,7 @@ import Foundation
 import Vapor
 import HTTP
 
-class PunHelper {
+class Helper {
     func getRedirectResponse(path: String, status: Status) -> Response {
         let res = Response(status: status, headers: ["Location": path])
         return res
@@ -46,7 +46,6 @@ class PunHelper {
         return json
     }
 
-    //TODO: Construct the appropriate response based on the status code
     func getResponse(statusCode: Int) throws -> Response {
         var json = JSON()
         try json.set("status", statusCode)

@@ -5,7 +5,5 @@ dependencies:
     - sudo chmod -R a+rx /usr/
 test:
   override:
-    - swift build
-    - swift build -c release
-    - swift test
+    - vapor test
     
