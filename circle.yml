@@ -1,7 +1,8 @@
 dependencies:
   override:
     - eval "$(curl -sL https://apt.vapor.sh)"
-    - sudo apt-get install vapor
+    - sudo apt-get install swift vapor
+    - eval "$(curl -sL check.vapor.sh)"
     - sudo chmod -R a+rx /usr/
 test:
   override:
