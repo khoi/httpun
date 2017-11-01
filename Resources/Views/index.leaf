@@ -2,25 +2,24 @@
 <html>
 
 <head>
-	<meta charset="utf-8">
-	<title>httpun: HTTP Testing Service</title>
+    <meta charset="utf-8">
+    <title>httpun: HTTP Testing Service</title>
 </head>
 
 <body>
-
-	<h1>htt(pun) HTTP Request & Response Testing Service</h1>
-	<p><i>pun obviously intended</i></p>
+    <h1>htt(pun) HTTP Request & Response Testing Service</h1>
+    <p><i>pun obviously intended</i></p>
     <p>Hosted in <a href="http://httpun.org">HTTP</a>, <a href="https://httpun.org">HTTPS</a>, and on <a href="https://httpun.herokuapp.com">Heroku</a></p>
-	<h2>Endpoints</h2>
-	<ul>
-		<li><a href="/ip">/ip</a> Returns Origin IP.
-		</li>
-		<li><a href="/user-agent">/user-agent</a> Returns user-agent.
-		</li>
-		<li><a href="/headers">/headers</a> Returns headers.
-		</li>
-		<li><a href="/get">/get</a> Returns GET data.
-		</li>
+    <h2>Endpoints</h2>
+    <ul>
+        <li><a href="/ip">/ip</a> Returns Origin IP.
+        </li>
+        <li><a href="/user-agent">/user-agent</a> Returns user-agent.
+        </li>
+        <li><a href="/headers">/headers</a> Returns headers.
+        </li>
+        <li><a href="/get">/get</a> Returns GET data.
+        </li>
         <li>/post Returns POST data.
         </li>
         <li>/patch Returns PATCH data.
@@ -31,10 +30,10 @@
         </li>
         <li><a href="/anything?k1=v1&k2">/anything/:whatever</a> Returns request data, and the method used.
         </li>
-		<li><a href="/cookies">/cookies</a> Returns cookies.
-		</li>
-		<li><a href="/cookies/set?k1=v1&k2=v2">/cookies/set?k1=v1&k2=v2</a> Set cookies.
-		</li>
+        <li><a href="/cookies">/cookies</a> Returns cookies.
+        </li>
+        <li><a href="/cookies/set?k1=v1&k2=v2">/cookies/set?k1=v1&k2=v2</a> Set cookies.
+        </li>
         <li><a href="/cookies/delete?k1&k2">/cookies/delete?k1=&k2=</a> Delete cookies.
         </li>
         <li><a href="/redirect/5">/redirect/:n</a> 302 redirect n times.
@@ -45,28 +44,30 @@
         </li>
         <li><a href="/robots.txt">/robots.txt</a> robots.txt rule.
         </li>
+        <li><a href="/status/418">/status/:code</a> Returns given HTTP Status code.
+        </li>
         <li><a href="/deny">/deny</a> Robots prohibited.
         </li>
-	</ul>
-	<h2>Examples</h2>
-	<ul>
-		<li>
-			<strong>
-					curl http://httpun.org/ip
-				</strong>
-			<pre>{ "origin": "127.0.0.1" }</pre>
-		</li>
-		<li>
-			<strong>
-					curl http://httpun.org/user-agent
-				</strong>
-			<pre>{ "user-agent": "curl/7.51.0" }</pre>
-		</li>
-		<li>
-			<strong>
-					curl http://httpun.org/get?param1=value1
-				</strong>
-			<pre>
+    </ul>
+    <h2>Examples</h2>
+    <ul>
+        <li>
+            <strong>
+          curl http://httpun.org/ip
+        </strong>
+            <pre>{ "origin": "127.0.0.1" }</pre>
+        </li>
+        <li>
+            <strong>
+          curl http://httpun.org/user-agent
+        </strong>
+            <pre>{ "user-agent": "curl/7.51.0" }</pre>
+        </li>
+        <li>
+            <strong>
+          curl http://httpun.org/get?param1=value1
+        </strong>
+            <pre>
 {
   "headers": {
     "Accept": "*/*",
@@ -81,39 +82,37 @@
     "param1": "value1"
   }
 }
-				</pre>
-		</li>
-	</ul>
-	<h2>Description</h2>
-	<p>
-		This project was made for the purpose of exploring server side Swift with <a href="https://github.com/vapor/vapor" target="_blank">Vapor</a>.
-		Heavily inspired by the famous <a href="https://httpbin.org" target="_blank">httpbin</a>.
-	</p>
-	<h2>Author</h2>
-	A <a href="https://www.khoi.io" target="_blank">khoiln</a> project.
-	<h2>References</h2>
-	<ul>
-		<li><a href="https://httpbin.org" target="_blank">httpbin</a></li>
-		<li><a href="https://vapor.codes/" target="_blank">Vapor Web Framework</a></li>
-		<li><a href="https://swift.org" target="_blank">Swift Programming Language</a></li>
-	</ul>
+        </pre>
+        </li>
+    </ul>
+    <h2>Description</h2>
+    <p>
+        This project was made for the purpose of exploring server side Swift with <a href="https://github.com/vapor/vapor" target="_blank">Vapor</a>. Heavily inspired by the famous <a href="https://httpbin.org" target="_blank">httpbin</a>.
+    </p>
+    <h2>Author</h2> A <a href="https://www.khoi.io" target="_blank">khoiln</a> project.
+    <h2>References</h2>
+    <ul>
+        <li><a href="https://httpbin.org" target="_blank">httpbin</a></li>
+        <li><a href="https://vapor.codes/" target="_blank">Vapor Web Framework</a></li>
+        <li><a href="https://swift.org" target="_blank">Swift Programming Language</a></li>
+    </ul>
     <a href="https://github.com/khoiln/httpun"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
-	<script>
-		(function (i, s, o, g, r, a, m) {
-			i['GoogleAnalyticsObject'] = r;
-			i[r] = i[r] || function () {
-				(i[r].q = i[r].q || []).push(arguments)
-			}, i[r].l = 1 * new Date();
-			a = s.createElement(o),
-				m = s.getElementsByTagName(o)[0];
-			a.async = 1;
-			a.src = g;
-			m.parentNode.insertBefore(a, m)
-		})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    <script>
+    (function(i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function() {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-		ga('create', 'UA-101742493-1', 'auto');
-		ga('send', 'pageview');
-	</script>
+    ga('create', 'UA-101742493-1', 'auto');
+    ga('send', 'pageview');
+    </script>
 </body>
 
 </html>

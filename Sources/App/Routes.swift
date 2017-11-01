@@ -10,7 +10,7 @@ extension Droplet {
         let helper = Helper()
 
         get ("/") { req in
-            try view.make("index")
+            try self.view.make("index")
         }
 
         get("/ip") { req in
@@ -91,10 +91,10 @@ extension Droplet {
 
         all("/status", String.parameter) { req in
             guard let codeString = try? req.parameters.next(String.self),
-                    let code = Int(codeString), code > 100 else {
-                return try helper.getResponse(statusCode: 400)
+                    let code = Int(codeString) else {
+                        return try helper.getResponse(for: Status(statusCode: 400))
             }
-            return try helper.getResponse(statusCode: code)
+            return try helper.getResponse(for: Status(statusCode: code))
         }
 
         all("/anything", "*") { req in

@@ -46,9 +46,42 @@ class Helper {
         return json
     }
 
-    func getResponse(statusCode: Int) throws -> Response {
-        var json = JSON()
-        try json.set("status", statusCode)
-        return try Response(status: Status(statusCode: statusCode), json: json)
+    func getResponse(for status: Status) throws -> Response {
+        switch status.statusCode {
+        case 0...100:
+            return try getResponse(for: Status(statusCode: 400))
+        case 301, 302, 303, 304, 305, 307:
+            return getRedirectResponse(path: "/redirect/1", status: status)
+        case 401:
+            return Response(status: status, headers: [
+                "WWW-Authenticate": "Basic realm=\"Fake Realm\""
+                ])
+        case 402:
+            return Response(status: status, headers: [
+                "x-more-info": "http://vimeo.com/22053820"
+                ], body: "Fuck you, pay me!")
+        case 406:
+            let json = JSON([
+                "message": "Client did not request a supported media type.",
+                "accept": [
+                    "image/webp",
+                    "image/svg+xml",
+                    "image/jpeg",
+                    "image/png",
+                    "image/*",
+                ]
+                ])
+            return try Response(status: status, json: json)
+        case 407:
+            return Response(status: status, headers: [
+                "Proxy-Authenticate": "Basic realm=\"Fake Realm\""
+                ])
+        case 418:
+            return Response(status: status, headers: [
+                "x-more-info": "http://tools.ietf.org/html/rfc2324"
+                ], body: ASCIIArt.teaPot)
+        default:
+            return Response(status: status)
+        }
     }
 }

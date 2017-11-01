@@ -351,6 +351,36 @@ class RouteTests: TestCase {
             .assertHeader("Location", contains: "http://httpun.org/get?k1=v1&k2=v2")
 
     }
+
+    func testStatus() throws {
+        //Reject status codes < 100
+        try drop.testResponse(to: .get, at: "/status/1")
+            .assertStatus(is: Status(statusCode: 400))
+        try drop.testResponse(to: .get, at: "/status/99")
+            .assertStatus(is: Status(statusCode: 400))
+
+
+        // Success status codes
+        try drop.testResponse(to: .get, at: "/status/201")
+            .assertStatus(is: Status(statusCode: 201))
+
+        // Redirects
+        let redirectCodes = [301, 302, 303, 304, 305, 307]
+        try redirectCodes.forEach { (code) in
+            try drop.testResponse(to: .get, at: "/status/\(code)")
+                .assertStatus(is: Status(statusCode: code))
+                .assertHeader("Location", contains: "/redirect/1")
+        }
+
+        // Specials
+        try drop.testResponse(to: .get, at: "/status/401")
+            .assertStatus(is: Status(statusCode: 401))
+            .assertHeader("WWW-Authenticate", contains: "Basic realm=")
+
+        try drop.testResponse(to: .get, at: "/status/407")
+            .assertStatus(is: Status(statusCode: 407))
+            .assertHeader("Proxy-Authenticate", contains: "Basic realm=")
+    }
 }
 
 // MARK: Manifest
@@ -381,5 +411,6 @@ extension RouteTests {
         ("testAnythingNoBody", testAnythingNoBody),
         ("testRedirect", testRedirect),
         ("testRedirectTo", testRedirectTo),
+        ("testStatus", testStatus),
     ]
 }
